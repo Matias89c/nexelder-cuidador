@@ -29,11 +29,6 @@ jobs:
           java-version: "17"
 
       - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.11.1"
-
-      - name: Generate Gradle wrapper (for opening the project in Android Studio)
-        run: gradle --no-daemon wrapper --gradle-version 8.11.1 --distribution-type bin
 
       - name: Restore signing key
         env:
@@ -52,7 +47,7 @@ jobs:
           NEX_KEY_ALIAS: ${{ secrets.NEX_KEY_ALIAS }}
           NEX_KEY_PASSWORD: ${{ secrets.NEX_KEY_PASSWORD }}
           NEX_VERSION_CODE: ${{ github.run_number }}
-        run: gradle --no-daemon assembleRelease
+        run: ./gradlew --no-daemon assembleRelease
 
       - name: Verify signature
         run: |
@@ -65,11 +60,3 @@ jobs:
           name: NexElder-Cuidador-release
           path: ${{ runner.temp }}/NexElder-Cuidador-release.apk
           if-no-files-found: error
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: gradle-wrapper
-          path: |
-            android/gradlew
-            android/gradlew.bat
-            android/gradle/wrapper/
