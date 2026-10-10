@@ -387,11 +387,13 @@ h1 { margin: 0; font: 700 32px/1.1 var(--font-display); letter-spacing: -.02em; 
   }
   function showPhone(p) {
     var d = p.replace(/\D/g, "");
+    if (d.indexOf("00") === 0) d = d.slice(2);
     if (d.length === 9) return d.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3");
     if (d.length === 11 && d.indexOf("34") === 0) return "+34 " + d.slice(2).replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3");
     return p;
   }
-  function waNumber(p) { var d = p.replace(/\D/g, ""); return d.length === 9 ? "34" + d : d; }
+  // WhatsApp wants the full international number with no «+» or «00» (wa.me/34600111222): «0034…» used to break it.
+  function waNumber(p) { var d = p.replace(/\D/g, ""); if (d.indexOf("00") === 0) d = d.slice(2); return d.length === 9 ? "34" + d : d; }
   function smsHref(phone, body) { return "sms:" + phone + (body ? (isIOS ? "&" : "?") + "body=" + encodeURIComponent(body) : ""); }
   function waHref(phone, body) { return "https://wa.me/" + waNumber(phone) + (body ? "?text=" + encodeURIComponent(body) : ""); }
   function smsBody(cmd, who) { return cmd === "OK" ? "OK" : "NEX " + cfg.pin + " " + cmd + (who ? " " + who : ""); }
