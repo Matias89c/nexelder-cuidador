@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cuidador</string>
+    <string name="no_app">No hay ninguna app para abrir esto en este móvil.</string>
+    <string name="copied">Copiado</string>
+</resources>

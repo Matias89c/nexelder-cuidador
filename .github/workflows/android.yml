@@ -1,0 +1,75 @@
+name: Android APK
+
+on:
+  push:
+    branches: [premium-android, main]
+    paths: ["index.html", "fonts/**", "icon-*.png", "manifest.webmanifest", "android/**", ".github/workflows/android.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.11.1"
+
+      - name: Generate Gradle wrapper (for opening the project in Android Studio)
+        run: gradle --no-daemon wrapper --gradle-version 8.11.1 --distribution-type bin
+
+      - name: Restore signing key
+        env:
+          KEYSTORE_B64: ${{ secrets.NEX_KEYSTORE_B64 }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "NEX_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+          else
+            echo "::warning::NEX_KEYSTORE_B64 is not set; the release APK will be unsigned."
+          fi
+
+      - name: Build release APK
+        env:
+          NEX_KEYSTORE_PASSWORD: ${{ secrets.NEX_KEYSTORE_PASSWORD }}
+          NEX_KEY_ALIAS: ${{ secrets.NEX_KEY_ALIAS }}
+          NEX_KEY_PASSWORD: ${{ secrets.NEX_KEY_PASSWORD }}
+          NEX_VERSION_CODE: ${{ github.run_number }}
+        run: gradle --no-daemon assembleRelease
+
+      - name: Verify signature
+        run: |
+          APK=$(ls app/build/outputs/apk/release/*.apk | head -1)
+          "$ANDROID_HOME"/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/apksigner verify --print-certs "$APK" || true
+          cp "$APK" "$RUNNER_TEMP/NexElder-Cuidador-release.apk"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NexElder-Cuidador-release
+          path: ${{ runner.temp }}/NexElder-Cuidador-release.apk
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gradle-wrapper
+          path: |
+            android/gradlew
+            android/gradlew.bat
+            android/gradle/wrapper/

@@ -1,13 +1,17 @@
 {
+  "id": "./",
   "name": "NexElder Cuidador",
   "short_name": "Cuidador",
+  "description": "Controla con SMS o WhatsApp el móvil de un familiar que usa NexElder.",
   "lang": "es",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#f2f2f7",
   "theme_color": "#f2f2f7",
   "icons": [
     { "src": "icon-180.png", "sizes": "180x180", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
   ]
 }

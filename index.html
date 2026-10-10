@@ -3,142 +3,250 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Cuidador">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <title>NexElder Cuidador</title>
 <style>
-/* Layout: one iPhone-width column; Shortcuts-style tile grid; actions open a bottom sheet with the exact SMS. */
+/* NexElder Cuidador — one column, iOS-style materials.
+   Tokens first; every colour has a dark counterpart. Glass = translucent fill + backdrop blur + hairline + inner highlight. */
+@font-face { font-family: "Inter"; src: url("fonts/inter.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 :root {
-  --bg: #f2f2f7; --card: #ffffff; --fg: #000000; --muted: #5b5b63; --line: rgba(60, 60, 67, 0.18);
-  --accent: #0060df; --sheet-shade: rgba(0, 0, 0, 0.4); --code-bg: #eef0f6;
-  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --radius: 22px;
+  --bg: #f2f2f7; --bg-tint: radial-gradient(120% 60% at 50% -10%, #dfe7ff 0%, rgba(242,242,247,0) 60%);
+  --card: #ffffff; --fill: rgba(118,118,128,.12); --fill-2: rgba(118,118,128,.2);
+  --fg: #000000; --muted: #5b5b63; --faint: #8a8a93; --line: rgba(60,60,67,.16);
+  --accent: #0a66e0; --on-accent: #ffffff; --danger: #d3262b; --ok: #1e8e3e;
+  --glass: rgba(255,255,255,.62); --glass-strong: rgba(255,255,255,.82); --glass-line: rgba(255,255,255,.7);
+  --glass-shadow: 0 10px 30px rgba(20,30,60,.12), 0 1px 2px rgba(20,30,60,.08);
+  --shade: rgba(0,0,0,.32);
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --spring: cubic-bezier(.32,.72,0,1);
+  --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #000000; --card: #1c1c1e; --fg: #ffffff; --muted: #a1a1aa; --line: rgba(84, 84, 88, 0.6);
-    --accent: #4da3ff; --sheet-shade: rgba(0, 0, 0, 0.6); --code-bg: #2c2c2e; color-scheme: dark;
+    --bg: #000000; --bg-tint: radial-gradient(120% 60% at 50% -10%, #14204a 0%, rgba(0,0,0,0) 60%);
+    --card: #1c1c1e; --fill: rgba(118,118,128,.24); --fill-2: rgba(118,118,128,.32);
+    --fg: #ffffff; --muted: #a1a1aa; --faint: #7c7c85; --line: rgba(84,84,88,.55);
+    --accent: #4da3ff; --on-accent: #001a33; --danger: #ff6b6b; --ok: #4cd97b;
+    --glass: rgba(30,30,32,.58); --glass-strong: rgba(36,36,38,.86); --glass-line: rgba(255,255,255,.12);
+    --glass-shadow: 0 10px 30px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.4);
+    --shade: rgba(0,0,0,.55); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #000000; --card: #1c1c1e; --fg: #ffffff; --muted: #a1a1aa; --line: rgba(84, 84, 88, 0.6);
-  --accent: #4da3ff; --sheet-shade: rgba(0, 0, 0, 0.6); --code-bg: #2c2c2e; color-scheme: dark;
+  --bg: #000000; --bg-tint: radial-gradient(120% 60% at 50% -10%, #14204a 0%, rgba(0,0,0,0) 60%);
+  --card: #1c1c1e; --fill: rgba(118,118,128,.24); --fill-2: rgba(118,118,128,.32);
+  --fg: #ffffff; --muted: #a1a1aa; --faint: #7c7c85; --line: rgba(84,84,88,.55);
+  --accent: #4da3ff; --on-accent: #001a33; --danger: #ff6b6b; --ok: #4cd97b;
+  --glass: rgba(30,30,32,.58); --glass-strong: rgba(36,36,38,.86); --glass-line: rgba(255,255,255,.12);
+  --glass-shadow: 0 10px 30px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.4);
+  --shade: rgba(0,0,0,.55); color-scheme: dark;
 }
-* { box-sizing: border-box; }
-body { background: var(--bg); color: var(--fg); font: 17px/1.4 var(--font); -webkit-font-smoothing: antialiased; }
-.app { max-width: 560px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 40px; display: grid; gap: 18px; }
-header { display: flex; align-items: flex-end; gap: 12px; }
-header .who { flex: 1; min-width: 0; }
-.eyebrow { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-h1 { margin: 2px 0 0; font: 700 34px/1.1 var(--font-display); letter-spacing: -0.02em; text-wrap: balance; overflow-wrap: anywhere; }
-.sub { margin: 4px 0 0; color: var(--muted); font-size: 16px; font-variant-numeric: tabular-nums; }
-button, a.btn { font: inherit; cursor: pointer; border: 0; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+html { background: var(--bg); }
+body { margin: 0; min-height: 100vh; min-height: 100dvh; background: var(--bg-tint), var(--bg); background-attachment: fixed; color: var(--fg);
+  font: 17px/1.4 var(--font); -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; overscroll-behavior-y: none; }
+body.locked { overflow: hidden; }
+:where(button, a.btn) { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; text-decoration: none; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.ghost { background: var(--card); color: var(--accent); font-weight: 600; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); min-height: 44px; }
-.banner { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; font-size: 15px; color: var(--muted); }
+svg { flex: none; }
+
+.glass { background: var(--glass); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-line); box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,.25); }
+
+/* Compact bar: appears once the large title scrolls away, like a UINavigationBar. */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 5; padding-top: var(--safe-t); height: calc(52px + var(--safe-t));
+  display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s ease;
+  background: var(--glass-strong); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: .5px solid var(--line); }
+.navbar.on { opacity: 1; pointer-events: auto; }
+.navbar b { font: 600 17px/1 var(--font); }
+
+.app { max-width: 560px; margin: 0 auto; padding: calc(20px + var(--safe-t)) 16px calc(40px + var(--safe-b)); display: grid; gap: 20px; }
+
+header.top { display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
+.eyebrow { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.pill-btn { min-height: 44px; padding: 0 16px; border-radius: 999px; font-weight: 600; color: var(--accent); }
+
+/* Contact card */
+.card { border-radius: 30px; padding: 22px 18px 18px; display: grid; justify-items: center; gap: 14px; text-align: center; }
+.avatar { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; color: #fff;
+  font: 600 34px/1 var(--font-display); letter-spacing: -.01em;
+  background: linear-gradient(180deg, #a4b4ff, #5a6ee0); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 6px 18px rgba(70,90,220,.35); }
+h1 { margin: 0; font: 700 32px/1.1 var(--font-display); letter-spacing: -.02em; overflow-wrap: anywhere; text-wrap: balance; }
+.sub { margin: 2px 0 0; color: var(--muted); font-size: 15px; font-variant-numeric: tabular-nums; }
+.actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+.action { flex-direction: column; gap: 4px; min-height: 64px; border-radius: 18px; background: var(--fill); color: var(--accent); font-size: 13px; font-weight: 600;
+  transition: transform .25s var(--spring), background-color .2s; }
+.action svg { width: 24px; height: 24px; }
+.action:active { transform: scale(.95); background: var(--fill-2); }
+
+.banner { border-radius: 18px; padding: 12px 14px; font-size: 15px; color: var(--muted); display: flex; gap: 10px; align-items: flex-start; }
+.banner svg { width: 20px; height: 20px; color: var(--accent); margin-top: 1px; }
 .banner strong { color: var(--fg); }
-.quick { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.quick a { background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: 18px; min-height: 60px; font-weight: 600; }
-.quick svg { width: 24px; height: 24px; }
-.section-title { margin: 6px 4px -6px; font: 600 20px/1.2 var(--font-display); }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.tile { color: #ffffff; text-align: left; border-radius: var(--radius); padding: 14px; min-height: 132px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; box-shadow: 0 1px 2px rgba(0,0,0,0.12); transition: transform 0.12s ease; }
-.tile:active { transform: scale(0.97); }
-.tile svg { width: 30px; height: 30px; }
-.tile .t { font-weight: 700; font-size: 18px; line-height: 1.2; }
-.tile .s { font-size: 14px; line-height: 1.3; opacity: 0.95; }
-/* Darkened Shortcuts colours: white text keeps at least 4.5:1 on the lighter stop. */
-.blue   { background: linear-gradient(160deg, #2a6fdb, #1559c9); }
-.green  { background: linear-gradient(160deg, #23873f, #1c7a3a); }
-.orange { background: linear-gradient(160deg, #bb5509, #a84b08); }
-.purple { background: linear-gradient(160deg, #8a47c2, #7a3bb0); }
-.red    { background: linear-gradient(160deg, #d3262b, #c4161c); }
-.slate  { background: linear-gradient(160deg, #5c5c66, #4a4a55); }
-.indigo { background: linear-gradient(160deg, #5050c8, #3f3fb8); }
-.wide { grid-column: 1 / -1; min-height: 96px; }
-.foot { margin: 4px 4px 0; color: var(--muted); font-size: 14px; }
-/* Bottom sheet */
-.shade { position: fixed; inset: 0; background: var(--sheet-shade); z-index: 10; }
-.sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 11; background: var(--card); border-radius: 22px 22px 0 0; max-height: 88%; overflow-y: auto;
-  padding-inline: 20px; padding-block: 10px calc(20px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -8px 30px rgba(0,0,0,0.25); }
-.sheet-inner { max-width: 520px; margin: 0 auto; display: grid; gap: 14px; }
-.grabber { width: 40px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto 4px; }
-.sheet h2 { margin: 0; font: 700 24px/1.2 var(--font-display); text-wrap: balance; }
-.sheet p { margin: 0; color: var(--muted); }
-.code { background: var(--code-bg); border-radius: 14px; padding: 14px; font: 600 22px/1.3 var(--mono); overflow-wrap: anywhere; user-select: all; }
-.to { font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.to b { color: var(--fg); }
-.primary { background: var(--accent); color: #ffffff; font-weight: 700; border-radius: 16px; min-height: 56px; padding: 0 18px; width: 100%; }
-:root .primary { color: #ffffff; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .primary { color: #001a33; } }
-:root[data-theme="dark"] .primary { color: #001a33; }
-.secondary { background: var(--code-bg); color: var(--fg); font-weight: 600; border-radius: 16px; min-height: 52px; width: 100%; }
-.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.note { font-size: 14px; color: var(--muted); }
-.ok { color: var(--fg); font-weight: 600; font-size: 15px; min-height: 1.4em; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { background: var(--code-bg); color: var(--fg); border-radius: 999px; padding: 10px 16px; font-weight: 600; min-height: 44px; }
-.chip[aria-pressed="true"] { background: var(--accent); color: #ffffff; }
-.seg { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--code-bg); border-radius: 12px; padding: 3px; gap: 3px; }
-.seg button { background: transparent; color: var(--fg); border-radius: 9px; min-height: 44px; font-size: 14px; font-weight: 600; padding: 4px; text-align: center; }
-.seg button[aria-pressed="true"] { background: var(--card); box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
-.seg.two { grid-template-columns: 1fr 1fr; background: var(--card); border: 1px solid var(--line); }
-.seg.two button { min-height: 48px; font-size: 16px; }
-.seg.two button[aria-pressed="true"] { background: var(--accent); color: #ffffff; box-shadow: none; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .seg.two button[aria-pressed="true"] { color: #001a33; } }
-:root[data-theme="dark"] .seg.two button[aria-pressed="true"] { color: #001a33; }
+
+/* Segmented control with a sliding thumb */
 .channel { display: grid; gap: 8px; }
-label { display: grid; gap: 6px; font-weight: 600; font-size: 15px; }
-input { font: 400 18px var(--font); color: var(--fg); background: var(--code-bg); border: 1px solid transparent; border-radius: 12px; padding: 12px 14px; min-height: 50px; width: 100%; }
-input[aria-invalid="true"] { border-color: #d3262b; }
-.err { color: #d3262b; font-size: 14px; font-weight: 600; min-height: 1.2em; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .err { color: #ff6b6b; } }
-:root[data-theme="dark"] .err { color: #ff6b6b; }
-@media (max-width: 360px) { .grid, .quick { grid-template-columns: 1fr; } }
-@media (prefers-reduced-motion: reduce) { .tile { transition: none; } }
+.seg { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 14px; background: var(--fill); isolation: isolate; }
+.seg::before { content: ""; position: absolute; z-index: -1; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 11px;
+  background: var(--card); box-shadow: 0 3px 8px rgba(0,0,0,.12), 0 1px 1px rgba(0,0,0,.06); transition: transform .35s var(--spring); }
+.seg[data-on="1"]::before { transform: translateX(100%); }
+.seg button { min-height: 44px; border-radius: 11px; font-size: 15px; font-weight: 600; }
+.seg button[aria-pressed="false"] { color: var(--muted); }
+.seg.three { grid-template-columns: repeat(3, 1fr); }
+.seg.three::before { width: calc((100% - 6px) / 3); }
+.seg.three[data-on="2"]::before { transform: translateX(200%); }
+.seg.three button { font-size: 13px; padding: 4px; }
+.note { margin: 0 4px; font-size: 14px; color: var(--muted); }
+
+.section-title { margin: 6px 4px -8px; font: 700 22px/1.2 var(--font-display); letter-spacing: -.01em; }
+
+/* Shortcuts-style tiles */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tile { position: relative; overflow: hidden; color: #fff; text-align: left; border-radius: 24px; padding: 14px; min-height: 128px;
+  flex-direction: column; justify-content: space-between; align-items: flex-start;
+  box-shadow: 0 8px 20px -8px var(--glow, rgba(0,0,0,.4)), inset 0 1px 0 rgba(255,255,255,.28), inset 0 -1px 0 rgba(0,0,0,.12);
+  transition: transform .35s var(--spring), filter .2s; }
+.tile::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0) 45%); }
+.tile:active { transform: scale(.96); filter: brightness(.94); }
+.tile .ic { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: rgba(255,255,255,.2); }
+.tile .ic svg { width: 24px; height: 24px; }
+.tile .t { display: block; font-weight: 700; font-size: 17px; line-height: 1.2; }
+.tile .s { display: block; font-size: 14px; line-height: 1.3; opacity: .92; margin-top: 2px; }
+.wide { grid-column: 1 / -1; min-height: 88px; flex-direction: row; justify-content: flex-start; align-items: center; gap: 14px; }
+/* Darkened Shortcuts colours: white text keeps at least 4.5:1 on the lighter stop. */
+.blue   { background: linear-gradient(160deg, #2f76e6, #1559c9); --glow: rgba(21,89,201,.6); }
+.green  { background: linear-gradient(160deg, #25904a, #1c7a3a); --glow: rgba(28,122,58,.55); }
+.orange { background: linear-gradient(160deg, #c45a0a, #a84b08); --glow: rgba(168,75,8,.55); }
+.purple { background: linear-gradient(160deg, #9150ca, #7a3bb0); --glow: rgba(122,59,176,.55); }
+.red    { background: linear-gradient(160deg, #dc2f34, #c4161c); --glow: rgba(196,22,28,.55); }
+.slate  { background: linear-gradient(160deg, #62626d, #4a4a55); --glow: rgba(60,60,70,.5); }
+.indigo { background: linear-gradient(160deg, #5a5ad2, #3f3fb8); --glow: rgba(63,63,184,.55); }
+
+.foot { margin: 0 4px; color: var(--muted); font-size: 14px; }
+
+/* Sheets: spring in from the bottom, drag the grabber down to dismiss. */
+.shade { position: fixed; inset: 0; z-index: 10; background: var(--shade); opacity: 0; transition: opacity .3s ease; }
+.shade.on { opacity: 1; }
+.sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 11; max-height: calc(100% - var(--safe-t) - 12px); overflow-y: auto; overscroll-behavior: contain;
+  border-radius: 32px 32px 0 0; padding: 8px 20px calc(20px + var(--safe-b));
+  background: var(--glass-strong); -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%);
+  border-top: 1px solid var(--glass-line); box-shadow: 0 -10px 40px rgba(0,0,0,.25);
+  transform: translateY(105%); transition: transform .45s var(--spring); will-change: transform; }
+.sheet.on { transform: translateY(0); }
+.sheet.dragging { transition: none; }
+.sheet-inner { max-width: 520px; margin: 0 auto; display: grid; gap: 14px; }
+.grabber { width: 100%; height: 22px; display: grid; place-items: center; cursor: grab; touch-action: none; }
+.grabber::before { content: ""; width: 38px; height: 5px; border-radius: 3px; background: var(--fill-2); }
+.sheet-head { display: flex; align-items: center; gap: 12px; }
+.sheet-head .ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; color: #fff; flex: none; }
+.sheet-head .ic svg { width: 26px; height: 26px; }
+.sheet h2 { margin: 0; font: 700 22px/1.2 var(--font-display); letter-spacing: -.01em; text-wrap: balance; }
+.sheet p { margin: 0; color: var(--muted); }
+.code { background: var(--fill); border-radius: 16px; padding: 14px 16px; font: 600 21px/1.3 var(--mono); overflow-wrap: anywhere; user-select: all; -webkit-user-select: all; }
+.to { font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; margin-top: -6px; padding: 0 4px; }
+.to b { color: var(--fg); font-weight: 600; }
+.primary { width: 100%; min-height: 54px; padding: 0 18px; border-radius: 18px; background: var(--accent); color: var(--on-accent); font-weight: 700;
+  box-shadow: 0 8px 20px -8px var(--accent); transition: transform .3s var(--spring), opacity .2s; }
+.primary:active { transform: scale(.98); }
+.primary[aria-disabled="true"] { opacity: .45; box-shadow: none; }
+.secondary { width: 100%; min-height: 50px; border-radius: 16px; background: var(--fill); font-weight: 600; transition: transform .3s var(--spring); }
+.secondary:active { transform: scale(.98); background: var(--fill-2); }
+.secondary.danger { color: var(--danger); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--fill); font-weight: 600; transition: background-color .2s, color .2s; }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.picker { display: grid; gap: 12px; }
+
+/* Inset grouped form, like Settings */
+.group { background: var(--card); border-radius: 16px; overflow: hidden; }
+.group label { display: grid; grid-template-columns: 112px 1fr; align-items: center; gap: 10px; min-height: 50px; padding: 0 16px; font-size: 16px; font-weight: 500; }
+.group label { position: relative; }
+.group label + label::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: .5px; background: var(--line); }
+.group input { font: 400 16px var(--font); color: var(--fg); background: transparent; border: 0; padding: 14px 0; min-width: 0; width: 100%; outline: none; text-align: right; }
+.group input::placeholder { color: var(--faint); }
+.group label:focus-within { background: var(--fill); }
+.group input[aria-invalid="true"] { color: var(--danger); }
+.field-solo { display: grid; gap: 6px; font-weight: 600; font-size: 15px; }
+.field-solo input { font: 400 17px var(--font); color: var(--fg); background: var(--fill); border: 0; border-radius: 12px; padding: 12px 14px; min-height: 48px; width: 100%; outline: none; }
+.field-solo input:focus { box-shadow: 0 0 0 2px var(--accent); }
+.group-note { margin: -6px 16px 0; font-size: 13px; color: var(--muted); }
+.err, .sheet .err { color: var(--danger); font-size: 14px; font-weight: 600; min-height: 1.2em; margin: 0 4px; }
+
+/* HUD toast */
+.toast { position: fixed; left: 50%; bottom: calc(28px + var(--safe-b)); z-index: 20; transform: translate(-50%, 20px) scale(.96); opacity: 0;
+  padding: 12px 18px; border-radius: 999px; font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 8px; max-width: calc(100% - 32px);
+  transition: transform .4s var(--spring), opacity .25s; pointer-events: none; }
+.toast.on { transform: translate(-50%, 0) scale(1); opacity: 1; }
+.toast svg { width: 20px; height: 20px; color: var(--ok); }
+
+/* Entrance */
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.app > * { animation: rise .5s var(--spring) both; }
+.app > *:nth-child(2) { animation-delay: .03s; } .app > *:nth-child(3) { animation-delay: .06s; } .app > *:nth-child(4) { animation-delay: .09s; }
+.app > *:nth-child(5) { animation-delay: .12s; } .app > *:nth-child(6) { animation-delay: .15s; } .app > *:nth-child(n+7) { animation-delay: .18s; }
+
+@media (max-width: 360px) { .grid { grid-template-columns: 1fr; } .group label { grid-template-columns: 1fr; gap: 0; padding-top: 8px; } .group input { text-align: left; padding-top: 4px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; } }
+@media (prefers-reduced-transparency: reduce) { .glass, .sheet, .navbar { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--card); } }
 </style>
 </head>
 <body>
 
+<div class="navbar" id="navbar" aria-hidden="true"><b id="nav-title">Mamá</b></div>
+
 <main class="app">
-  <header>
-    <div class="who">
-      <p class="eyebrow">NexElder · Cuidador</p>
-      <h1 id="who">Mamá</h1>
-      <p class="sub" id="sub">+34 600 111 222</p>
-    </div>
-    <button class="ghost" id="open-setup" type="button">Configurar</button>
+  <header class="top">
+    <p class="eyebrow">NexElder · Cuidador</p>
+    <button class="pill-btn glass" id="open-setup" type="button">Configurar</button>
   </header>
 
-  <div class="banner" id="demo"><strong>Datos de ejemplo.</strong> Toca «Configurar» y escribe el teléfono y el PIN de tu familiar. Se guardan solo en este iPhone.</div>
+  <section class="card glass" aria-labelledby="who">
+    <div class="avatar" id="avatar" aria-hidden="true">M</div>
+    <div>
+      <h1 id="who">Mamá</h1>
+      <p class="sub" id="sub">600 111 222</p>
+    </div>
+    <div class="actions">
+      <a class="btn action" id="call" href="tel:+34600111222">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg>Llamar
+      </a>
+      <a class="btn action" id="message" href="sms:+34600111222">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bubble"/></svg>Mensaje
+      </a>
+      <a class="btn action" id="whatsapp" href="https://wa.me/34600111222" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp
+      </a>
+    </div>
+  </section>
 
-  <div class="quick">
-    <a class="btn" id="call" href="tel:+34600111222">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
-      Llamar
-    </a>
-    <a class="btn" id="whatsapp" href="https://wa.me/34600111222" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
-      WhatsApp
-    </a>
+  <div class="banner glass" id="demo">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
+    <span><strong>Datos de ejemplo.</strong> Toca «Configurar» y escribe el teléfono y el PIN de tu familiar. Se guardan solo en <span class="device">este iPhone</span>.</span>
   </div>
 
   <div class="channel">
     <p class="eyebrow" id="channel-label">Enviar las órdenes por</p>
-    <div class="seg two" id="channel" role="group" aria-labelledby="channel-label">
-      <button type="button" data-channel="sms" aria-pressed="true">SMS</button>
-      <button type="button" data-channel="wa" aria-pressed="false">WhatsApp</button>
+    <div class="seg" id="channel" role="group" aria-labelledby="channel-label" data-on="0">
+      <button type="button" data-v="sms" aria-pressed="true">SMS</button>
+      <button type="button" data-v="wa" aria-pressed="false">WhatsApp</button>
     </div>
-    <p class="note" id="channel-note">Funciona siempre, sin internet en su móvil.</p>
+    <p class="note" id="channel-note">Funciona siempre, aunque su móvil no tenga internet.</p>
   </div>
 
   <h2 class="section-title" id="orders-title">Órdenes por SMS</h2>
@@ -151,58 +259,75 @@ input[aria-invalid="true"] { border-color: #d3262b; }
 
 <section class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-title">
   <div class="sheet-inner">
-    <div class="grabber"></div>
-    <h2 id="sheet-title">¿Dónde está?</h2>
+    <div class="grabber" aria-hidden="true"></div>
+    <div class="sheet-head">
+      <span class="ic" id="sheet-ic" aria-hidden="true"></span>
+      <h2 id="sheet-title">¿Dónde está?</h2>
+    </div>
     <p id="sheet-text">Te responde con un enlace de Google Maps.</p>
-    <div id="person-picker" hidden>
+    <div class="picker" id="person-picker" hidden>
       <div class="chips" id="chips"></div>
-      <label for="person-name" style="margin-top:10px">O escribe el nombre como está en su familia
+      <label class="field-solo" for="person-name">O escribe el nombre como está en su familia
         <input id="person-name" autocomplete="off" placeholder="Ana">
       </label>
-      <div class="seg" id="mode" style="margin-top:10px" role="group" aria-label="Qué hará su botón">
-        <button type="button" data-mode="VIDEO" aria-pressed="true">Videollamada</button>
-        <button type="button" data-mode="VOZ" aria-pressed="false">Llamada WhatsApp</button>
-        <button type="button" data-mode="LLAMADA" aria-pressed="false">Llamada normal</button>
+      <div class="seg three" id="mode" role="group" aria-label="Qué hará su botón" data-on="0">
+        <button type="button" data-v="VIDEO" aria-pressed="true">Videollamada</button>
+        <button type="button" data-v="VOZ" aria-pressed="false">Llamada WhatsApp</button>
+        <button type="button" data-v="LLAMADA" aria-pressed="false">Llamada normal</button>
       </div>
     </div>
     <div class="code" id="sms-text">NEX 4821 DONDE</div>
-    <div class="to">Para: <b id="sms-to">+34 600 111 222</b></div>
+    <div class="to">Para: <b id="sms-to">600 111 222</b></div>
     <a class="btn primary" id="send" href="#">Abrir Mensajes con el texto</a>
     <div class="row">
       <button class="secondary" id="copy" type="button">Copiar texto</button>
-      <button class="secondary" id="close" type="button">Cerrar</button>
+      <button class="secondary" data-close type="button">Cerrar</button>
     </div>
-    <p class="ok" id="copied" aria-live="polite"></p>
     <p class="note" id="sheet-note">En Mensajes, toca enviar. Si Mensajes no se abre, copia el texto y envíalo al número de arriba.</p>
   </div>
 </section>
 
 <section class="sheet" id="setup" hidden role="dialog" aria-modal="true" aria-labelledby="setup-title">
   <form class="sheet-inner" id="setup-form" novalidate>
-    <div class="grabber"></div>
+    <div class="grabber" aria-hidden="true"></div>
     <h2 id="setup-title">Configurar</h2>
     <p>Mira el PIN en el móvil de tu familiar: NexElder → Ayuda → Modo Cuidador → Control remoto por SMS.</p>
-    <label for="f-name">Cómo le llamas
-      <input id="f-name" autocomplete="off" placeholder="Mamá" maxlength="30">
-    </label>
-    <label for="f-phone">Teléfono de su móvil
-      <input id="f-phone" type="tel" inputmode="tel" autocomplete="off" placeholder="+34 600 111 222">
-    </label>
-    <label for="f-pin">PIN remoto
-      <input id="f-pin" inputmode="numeric" autocomplete="off" placeholder="4821" maxlength="8">
-    </label>
-    <label for="f-family">Familiares de su inicio (separados por comas)
-      <input id="f-family" autocomplete="off" placeholder="Ana, Luis">
-    </label>
-    <p class="err" id="setup-error" aria-live="assertive"></p>
-    <button class="primary" type="submit">Guardar en este iPhone</button>
-    <div class="row">
-      <button class="secondary" id="setup-cancel" type="button">Cancelar</button>
-      <button class="secondary" id="setup-clear" type="button">Borrar datos</button>
+    <div class="group">
+      <label for="f-name">Nombre <input id="f-name" autocomplete="off" placeholder="Mamá" maxlength="30"></label>
+      <label for="f-phone">Teléfono <input id="f-phone" type="tel" inputmode="tel" autocomplete="off" placeholder="600 111 222"></label>
+      <label for="f-pin">PIN remoto <input id="f-pin" inputmode="numeric" autocomplete="off" placeholder="4821" maxlength="8"></label>
     </div>
-    <p class="note">Los datos no salen de este iPhone. Para instalarla: en Safari, toca Compartir → «Añadir a pantalla de inicio».</p>
+    <div class="group">
+      <label for="f-family">Familiares <input id="f-family" autocomplete="off" placeholder="Ana, Luis"></label>
+    </div>
+    <p class="group-note">Los familiares de su inicio, separados por comas.</p>
+    <p class="err" id="setup-error" aria-live="assertive"></p>
+    <button class="btn primary" type="submit"><span>Guardar en <span class="device">este iPhone</span></span></button>
+    <div class="row">
+      <button class="secondary" data-close type="button">Cancelar</button>
+      <button class="secondary danger" id="setup-clear" type="button">Borrar datos</button>
+    </div>
+    <p class="note" id="setup-note">Los datos no salen de <span class="device">este iPhone</span>.</p>
   </form>
 </section>
+
+<div class="toast glass" id="toast" role="status" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg><span id="toast-text"></span></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></symbol>
+  <symbol id="i-bubble" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3C6.5 3 2 6.6 2 11c0 2.4 1.3 4.6 3.4 6.1-.2 1.4-.8 2.7-1.8 3.7-.2.2 0 .6.3.6 1.9-.1 3.6-.8 4.8-1.8 1 .3 2.1.4 3.3.4 5.5 0 10-3.6 10-8S17.5 3 12 3z"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.8-.1 1.4z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.5 14.5-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4-7 7z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></symbol>
+  <symbol id="i-battery" viewBox="0 0 24 24"><path fill="currentColor" d="M15.67 4H14V2h-4v2H8.33A1.33 1.33 0 0 0 7 5.33v15.33A1.33 1.33 0 0 0 8.33 22h7.33A1.33 1.33 0 0 0 17 20.67V5.33A1.33 1.33 0 0 0 15.67 4z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></symbol>
+  <symbol id="i-callme" viewBox="0 0 24 24"><path fill="currentColor" d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1 1 0 0 0-1.02.24l-2.2 2.2a15.07 15.07 0 0 1-6.59-6.58l2.2-2.21a.96.96 0 0 0 .25-1A11.36 11.36 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1zM19 12h2a9 9 0 0 0-9-9v2a7 7 0 0 1 7 7zm-4 0h2a5 5 0 0 0-5-5v2a3 3 0 0 1 3 3z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2 4 5v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-3zm-2 15-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><path fill="currentColor" d="M17 16l-4-4V8.82a3 3 0 1 0-2 0V12l-4 4H3v5h5v-3.05l4-4.2 4 4.2V21h5v-5h-4z"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 17h-2v-2h2v2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5a4 4 0 0 1 1.17-2.83l1.24-1.26A2 2 0 1 0 10 9H8a4 4 0 1 1 8 0 3.2 3.2 0 0 1-.93 2.25z"/></symbol>
+</svg>
 
 <script>
 (function () {
@@ -210,19 +335,12 @@ input[aria-invalid="true"] { border-color: #d3262b; }
   var KEY = "nexelder-cuidador";
   var CHANNEL_KEY = "nexelder-cuidador-canal";
   var EXAMPLE = { name: "Mamá", phone: "+34600111222", pin: "4821", family: ["Ana", "Luis"] };
-  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  // The Android app injects window.NexAndroid; everything else is a browser.
+  var native = window.NexAndroid || null;
+  var isIOS = !native && (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
+  var DEVICE = native ? "este móvil" : isIOS ? "este iPhone" : "este navegador";
 
   // Same command words as NexElder's parser (core/model RemoteCommands.kt).
-  var ICONS = {
-    pin: '<path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/>',
-    battery: '<path fill="currentColor" d="M15.67 4H14V2h-4v2H8.33A1.33 1.33 0 0 0 7 5.33v15.33A1.33 1.33 0 0 0 8.33 22h7.33A1.33 1.33 0 0 0 17 20.67V5.33A1.33 1.33 0 0 0 15.67 4z"/>',
-    bell: '<path fill="currentColor" d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>',
-    callme: '<path fill="currentColor" d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1 1 0 0 0-1.02.24l-2.2 2.2a15.07 15.07 0 0 1-6.59-6.58l2.2-2.21a.96.96 0 0 0 .25-1A11.36 11.36 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1zM19 12h2a9 9 0 0 0-9-9v2a7 7 0 0 1 7 7zm-4 0h2a5 5 0 0 0-5-5v2a3 3 0 0 1 3 3z"/>',
-    check: '<path fill="currentColor" d="M12 2 4 5v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-3zm-2 15-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>',
-    stop: '<path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>',
-    person: '<path fill="currentColor" d="M17 16l-4-4V8.82a3 3 0 1 0-2 0V12l-4 4H3v5h5v-3.05l4-4.2 4 4.2V21h5v-5h-4z"/>',
-    help: '<path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 17h-2v-2h2v2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5a4 4 0 0 1 1.17-2.83l1.24-1.26A2 2 0 1 0 10 9H8a4 4 0 1 1 8 0 3.2 3.2 0 0 1-.93 2.25z"/>'
-  };
   var COMMANDS = [
     { id: "where", cmd: "DONDE", tone: "blue", icon: "pin", title: "¿Dónde está?", sub: "Enlace de Google Maps",
       text: "Te responde con su ubicación en un enlace de Google Maps." },
@@ -232,30 +350,33 @@ input[aria-invalid="true"] { border-color: #d3262b; }
       text: "Su móvil sonará 1 minuto a todo volumen, aunque esté en silencio. Úsalo si no lo encuentra o no contesta." },
     { id: "callme", cmd: "LLAMAME", tone: "purple", icon: "callme", title: "Pídele que te llame", sub: "Aviso en su inicio",
       text: "En su pantalla de inicio aparecerá un aviso grande pidiéndole que te llame, durante 30 minutos." },
-    { id: "attend", cmd: "OK", tone: "red", icon: "check", title: "Atiendo el SOS", sub: "Para las llamadas",
+    { id: "attend", cmd: "OK", tone: "red", icon: "shield", title: "Atiendo el SOS", sub: "Para las llamadas",
       text: "Responde a un aviso de SOS: dice que tú lo atiendes, para la ronda de llamadas y avisa al resto de la familia." },
     { id: "close", cmd: "FIN", tone: "slate", icon: "stop", title: "Cerrar alerta", sub: "Cuando ya está resuelto",
       text: "Cierra un SOS o un aviso de inactividad que siga abierto en su móvil." },
-    { id: "button", cmd: "VIDEO", tone: "indigo", icon: "person", title: "Cambiar el botón de un familiar", sub: "Videollamada, WhatsApp o llamada normal", wide: true,
+    { id: "button", cmd: null, tone: "indigo", icon: "person", title: "Cambiar el botón de un familiar", sub: "Videollamada, WhatsApp o llamada normal", wide: true,
       text: "Elige a quién y qué hará su botón en el inicio de tu familiar." },
     { id: "help", cmd: "AYUDA", tone: "slate", icon: "help", title: "Ayuda", sub: "Lista de órdenes", wide: true,
       text: "Te responde con la lista de órdenes que entiende NexElder." }
   ];
 
+  var el = {};
+  ["navbar", "nav-title", "avatar", "who", "sub", "demo", "call", "message", "whatsapp", "channel", "channel-note", "orders-title", "grid",
+   "shade", "sheet", "sheet-ic", "sheet-title", "sheet-text", "person-picker", "chips", "person-name", "mode", "sms-text", "sms-to",
+   "send", "copy", "sheet-note", "setup", "setup-form", "f-name", "f-phone", "f-pin", "f-family", "setup-error", "setup-clear",
+   "open-setup", "toast", "toast-text"].forEach(function (id) { el[id] = document.getElementById(id); });
+
+  function store(fn, fallback) { try { return fn(localStorage); } catch (e) { return fallback; } }
   function readConfig() {
-    try {
-      var raw = localStorage.getItem(KEY);
-      var v = raw ? JSON.parse(raw) : null;
-      if (v && v.phone && v.pin) return { name: v.name || "Tu familiar", phone: v.phone, pin: v.pin, family: v.family || [], example: false };
-    } catch (e) { /* storage blocked: fall back to the example */ }
+    var v = store(function (s) { var raw = s.getItem(KEY); return raw ? JSON.parse(raw) : null; }, null);
+    if (v && v.phone && v.pin) return { name: v.name || "Tu familiar", phone: v.phone, pin: v.pin, family: v.family || [], example: false };
     return { name: EXAMPLE.name, phone: EXAMPLE.phone, pin: EXAMPLE.pin, family: EXAMPLE.family.slice(), example: true };
   }
   function writeConfig(c) {
-    try { localStorage.setItem(KEY, JSON.stringify({ name: c.name, phone: c.phone, pin: c.pin, family: c.family })); return true; }
-    catch (e) { return false; }
+    return store(function (s) { s.setItem(KEY, JSON.stringify({ name: c.name, phone: c.phone, pin: c.pin, family: c.family })); return true; }, false);
   }
 
-  // Phone helpers mirror NexElder's PhoneNumbers: 3-15 digits, optional +; Spanish numbers shown in groups of three.
+  // Phone helpers mirror NexElder's PhoneNumbers: 9-15 digits, optional leading +; Spanish numbers shown in groups of three.
   function cleanPhone(raw) {
     var p = String(raw || "").replace(/[^\d+]/g, "");
     if (p.indexOf("+") > 0) return null;
@@ -268,171 +389,275 @@ input[aria-invalid="true"] { border-color: #d3262b; }
     return p;
   }
   function waNumber(p) { var d = p.replace(/\D/g, ""); return d.length === 9 ? "34" + d : d; }
-  function smsHref(phone, body) { return "sms:" + phone + (isIOS ? "&" : "?") + "body=" + encodeURIComponent(body); }
-  function waHref(phone, body) { return "https://wa.me/" + waNumber(phone) + "?text=" + encodeURIComponent(body); }
-  function readChannel() { try { return localStorage.getItem(CHANNEL_KEY) === "wa" ? "wa" : "sms"; } catch (e) { return "sms"; } }
-  function smsBody(cfg, cmd, person) {
-    if (cmd === "OK") return "OK";
-    return "NEX " + cfg.pin + " " + cmd + (person ? " " + person : "");
+  function smsHref(phone, body) { return "sms:" + phone + (body ? (isIOS ? "&" : "?") + "body=" + encodeURIComponent(body) : ""); }
+  function waHref(phone, body) { return "https://wa.me/" + waNumber(phone) + (body ? "?text=" + encodeURIComponent(body) : ""); }
+  function smsBody(cmd, who) { return cmd === "OK" ? "OK" : "NEX " + cfg.pin + " " + cmd + (who ? " " + who : ""); }
+  function initials(name) {
+    var parts = name.trim().split(/\s+/).filter(Boolean);
+    return ((parts[0] || "?").charAt(0) + (parts[1] ? parts[1].charAt(0) : "")).toUpperCase();
+  }
+
+  function haptic(kind) {
+    if (native && native.haptic) { try { native.haptic(kind || "light"); } catch (e) { /* bridge gone */ } }
+    else if (navigator.vibrate) { navigator.vibrate(kind === "success" ? [8, 40, 8] : 6); }
+  }
+  var toastTimer = 0;
+  function toast(text) {
+    el["toast-text"].textContent = text;
+    el.toast.classList.add("on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.toast.classList.remove("on"); }, 2200);
   }
 
   var cfg = readConfig();
-  var $ = function (id) { return document.getElementById(id); };
-  var current = null, person = "", mode = "VIDEO", channel = readChannel();
+  var channel = store(function (s) { return s.getItem(CHANNEL_KEY) === "wa" ? "wa" : "sms"; }, "sms");
+  var current = null, person = "", mode = "VIDEO", lastFocus = null;
 
-  // SMS works with no internet on their phone; WhatsApp needs «Órdenes también por WhatsApp» on in NexElder.
-  function renderChannel() {
-    Array.prototype.forEach.call($("channel").children, function (b) {
-      b.setAttribute("aria-pressed", b.getAttribute("data-channel") === channel ? "true" : "false");
+  Array.prototype.forEach.call(document.querySelectorAll(".device"), function (n) { n.textContent = DEVICE; });
+  if (isIOS && !navigator.standalone) {
+    document.getElementById("setup-note").appendChild(document.createTextNode(" Para instalarla: en Safari, toca Compartir → «Añadir a pantalla de inicio»."));
+  }
+
+  // Segmented controls share one helper: aria-pressed + the sliding thumb index.
+  function setSeg(seg, value) {
+    Array.prototype.forEach.call(seg.children, function (b, i) {
+      var on = b.getAttribute("data-v") === value;
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      if (on) seg.setAttribute("data-on", String(i));
     });
-    $("channel-note").textContent = channel === "wa"
+  }
+  function onSeg(seg, fn) {
+    seg.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-v]");
+      if (!b) return;
+      haptic("select");
+      setSeg(seg, b.getAttribute("data-v"));
+      fn(b.getAttribute("data-v"));
+    });
+  }
+
+  function renderChannel() {
+    setSeg(el.channel, channel);
+    var wa = channel === "wa";
+    el["channel-note"].textContent = wa
       ? "Se abre vuestro chat con la orden escrita. En su móvil tiene que estar activado «Órdenes también por WhatsApp» (Modo Cuidador → Control remoto)."
       : "Funciona siempre, aunque su móvil no tenga internet.";
-    $("orders-title").textContent = channel === "wa" ? "Órdenes por WhatsApp" : "Órdenes por SMS";
+    el["orders-title"].textContent = wa ? "Órdenes por WhatsApp" : "Órdenes por SMS";
   }
-  Array.prototype.forEach.call($("channel").children, function (b) {
-    b.addEventListener("click", function () {
-      channel = b.getAttribute("data-channel");
-      try { localStorage.setItem(CHANNEL_KEY, channel); } catch (e) { /* remembered only for this visit */ }
-      renderChannel();
-    });
+  onSeg(el.channel, function (v) {
+    channel = v;
+    store(function (s) { s.setItem(CHANNEL_KEY, channel); });
+    renderChannel();
   });
 
-  function render() {
-    $("who").textContent = cfg.name;
-    $("sub").textContent = showPhone(cfg.phone) + " · PIN " + cfg.pin.replace(/./g, "•");
-    $("demo").hidden = !cfg.example;
-    $("call").href = "tel:" + cfg.phone;
-    $("whatsapp").href = "https://wa.me/" + waNumber(cfg.phone);
-    var grid = $("grid");
-    grid.textContent = "";
-    COMMANDS.forEach(function (c) {
+  function icon(name) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-' + name + '"/></svg>'; }
+
+  // Tiles never change, so they are built once and use a single delegated listener.
+  (function buildGrid() {
+    var frag = document.createDocumentFragment();
+    COMMANDS.forEach(function (c, i) {
       var b = document.createElement("button");
       b.type = "button";
       b.className = "tile " + c.tone + (c.wide ? " wide" : "");
-      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICONS[c.icon] + "</svg>" +
-        '<span><span class="t"></span><br><span class="s"></span></span>';
+      b.setAttribute("data-i", String(i));
+      b.innerHTML = '<span class="ic">' + icon(c.icon) + '</span><span><span class="t"></span><span class="s"></span></span>';
       b.querySelector(".t").textContent = c.title;
       b.querySelector(".s").textContent = c.sub;
-      b.addEventListener("click", function () { openSheet(c); });
-      grid.appendChild(b);
+      frag.appendChild(b);
     });
+    el.grid.appendChild(frag);
+    el.grid.addEventListener("click", function (e) {
+      var b = e.target.closest(".tile");
+      if (b) { haptic("light"); openSheet(COMMANDS[+b.getAttribute("data-i")]); }
+    });
+  })();
+
+  function render() {
+    el.who.textContent = cfg.name;
+    el["nav-title"].textContent = cfg.name;
+    el.avatar.textContent = initials(cfg.name);
+    el.sub.textContent = showPhone(cfg.phone) + " · PIN " + cfg.pin.replace(/./g, "•");
+    el.demo.hidden = !cfg.example;
+    el.call.href = "tel:" + cfg.phone;
+    el.message.href = smsHref(cfg.phone, "");
+    el.whatsapp.href = waHref(cfg.phone, "");
   }
 
   function updateSheet() {
     if (!current) return;
-    var cmd = current.id === "button" ? mode : current.cmd;
-    var who = current.id === "button" ? person : "";
-    var body = smsBody(cfg, cmd, who);
-    var ready = current.id !== "button" || who.length > 0;
-    $("sms-text").textContent = ready ? body : "Elige a quién";
-    $("sms-to").textContent = showPhone(cfg.phone);
-    var send = $("send");
+    var isButton = current.id === "button";
+    var who = isButton ? person : "";
+    var body = smsBody(isButton ? mode : current.cmd, who);
+    var ready = !isButton || who.length > 0;
     var wa = channel === "wa";
-    send.href = ready ? (wa ? waHref(cfg.phone, body) : smsHref(cfg.phone, body)) : "#";
-    if (wa) { send.target = "_blank"; send.rel = "noopener"; } else { send.removeAttribute("target"); }
-    send.textContent = wa ? "Abrir WhatsApp con el texto" : "Abrir Mensajes con el texto";
-    $("sheet-note").textContent = wa
+    el["sms-text"].textContent = ready ? body : "Elige a quién";
+    el["sms-to"].textContent = showPhone(cfg.phone);
+    el.send.href = ready ? (wa ? waHref(cfg.phone, body) : smsHref(cfg.phone, body)) : "#";
+    if (wa) { el.send.target = "_blank"; el.send.rel = "noopener"; } else { el.send.removeAttribute("target"); }
+    el.send.textContent = wa ? "Abrir WhatsApp con el texto" : "Abrir Mensajes con el texto";
+    el.send.setAttribute("aria-disabled", ready ? "false" : "true");
+    el["sheet-note"].textContent = wa
       ? "En WhatsApp, toca enviar. NexElder te responde en el mismo chat (o por SMS si no puede)."
       : "En Mensajes, toca enviar. Si Mensajes no se abre, copia el texto y envíalo al número de arriba.";
-    send.setAttribute("aria-disabled", ready ? "false" : "true");
-    send.style.opacity = ready ? "1" : "0.45";
-    $("copied").textContent = "";
   }
+
+  function renderChips() {
+    el.chips.textContent = "";
+    cfg.family.forEach(function (name) {
+      var chip = document.createElement("button");
+      chip.type = "button"; chip.className = "chip"; chip.textContent = name;
+      chip.setAttribute("aria-pressed", name === person ? "true" : "false");
+      el.chips.appendChild(chip);
+    });
+  }
+  el.chips.addEventListener("click", function (e) {
+    var chip = e.target.closest(".chip");
+    if (!chip) return;
+    haptic("select");
+    person = chip.textContent; el["person-name"].value = "";
+    Array.prototype.forEach.call(el.chips.children, function (x) { x.setAttribute("aria-pressed", x === chip ? "true" : "false"); });
+    updateSheet();
+  });
+  el["person-name"].addEventListener("input", function (e) {
+    person = e.target.value.trim();
+    Array.prototype.forEach.call(el.chips.children, function (x) { x.setAttribute("aria-pressed", "false"); });
+    updateSheet();
+  });
+  onSeg(el.mode, function (v) { mode = v; updateSheet(); });
+
+  // Sheet presentation
+  var openSheetEl = null;
+  function present(sheet, focusEl) {
+    lastFocus = document.activeElement;
+    openSheetEl = sheet;
+    el.shade.hidden = false; sheet.hidden = false;
+    document.body.classList.add("locked");
+    sheet.scrollTop = 0;
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      el.shade.classList.add("on"); sheet.classList.add("on");
+    }); });
+    if (focusEl) setTimeout(function () { focusEl.focus({ preventScroll: true }); }, 60);
+  }
+  function dismiss() {
+    var sheet = openSheetEl;
+    if (!sheet) return false;
+    openSheetEl = null; current = null;
+    sheet.classList.remove("on"); sheet.style.transform = ""; el.shade.classList.remove("on"); el.shade.style.opacity = "";
+    var done = function () { if (!sheet.classList.contains("on")) { sheet.hidden = true; if (!openSheetEl) el.shade.hidden = true; } };
+    sheet.addEventListener("transitionend", done, { once: true });
+    setTimeout(done, 500);
+    document.body.classList.remove("locked");
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    return true;
+  }
+  // Exposed so the Android back button can close a sheet before leaving the app.
+  window.nexBack = dismiss;
 
   function openSheet(c) {
     current = c;
-    $("sheet-title").textContent = c.title;
-    $("sheet-text").textContent = c.text;
-    var picker = $("person-picker");
-    picker.hidden = c.id !== "button";
-    if (c.id === "button") {
-      person = cfg.family[0] || "";
-      $("person-name").value = "";
-      var chips = $("chips");
-      chips.textContent = "";
-      cfg.family.forEach(function (name) {
-        var chip = document.createElement("button");
-        chip.type = "button"; chip.className = "chip"; chip.textContent = name;
-        chip.setAttribute("aria-pressed", name === person ? "true" : "false");
-        chip.addEventListener("click", function () {
-          person = name; $("person-name").value = "";
-          Array.prototype.forEach.call(chips.children, function (x) { x.setAttribute("aria-pressed", x === chip ? "true" : "false"); });
-          updateSheet();
-        });
-        chips.appendChild(chip);
-      });
-    }
+    el["sheet-title"].textContent = c.title;
+    el["sheet-text"].textContent = c.text;
+    el["sheet-ic"].className = "ic " + c.tone;
+    el["sheet-ic"].innerHTML = icon(c.icon);
+    var isButton = c.id === "button";
+    el["person-picker"].hidden = !isButton;
+    if (isButton) { person = cfg.family[0] || ""; el["person-name"].value = ""; renderChips(); }
     updateSheet();
-    $("shade").hidden = false;
-    $("sheet").hidden = false;
-    $("send").focus();
-  }
-  function closeAll() {
-    $("shade").hidden = true; $("sheet").hidden = true; $("setup").hidden = true; current = null;
+    present(el.sheet, isButton && !person ? el["person-name"] : el.send);
   }
 
-  $("person-name").addEventListener("input", function (e) {
-    person = e.target.value.trim();
-    Array.prototype.forEach.call($("chips").children, function (x) { x.setAttribute("aria-pressed", "false"); });
-    updateSheet();
-  });
-  Array.prototype.forEach.call($("mode").children, function (b) {
-    b.addEventListener("click", function () {
-      mode = b.getAttribute("data-mode");
-      Array.prototype.forEach.call($("mode").children, function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
-      updateSheet();
+  // Drag-to-dismiss on the grabber, iOS-style: follow the finger, close past 110 px or on a quick flick.
+  Array.prototype.forEach.call(document.querySelectorAll(".grabber"), function (g) {
+    var sheet = g.closest(".sheet"), startY = 0, lastY = 0, lastT = 0, v = 0, dy = 0, active = false;
+    g.addEventListener("pointerdown", function (e) {
+      active = true; startY = lastY = e.clientY; lastT = e.timeStamp; v = 0; dy = 0;
+      sheet.classList.add("dragging"); g.setPointerCapture(e.pointerId);
     });
+    g.addEventListener("pointermove", function (e) {
+      if (!active) return;
+      dy = Math.max(0, e.clientY - startY);
+      var dt = e.timeStamp - lastT; if (dt > 0) v = (e.clientY - lastY) / dt;
+      lastY = e.clientY; lastT = e.timeStamp;
+      sheet.style.transform = "translateY(" + dy + "px)";
+      el.shade.style.opacity = String(Math.max(0, 1 - dy / 400));
+    });
+    function end() {
+      if (!active) return;
+      active = false; sheet.classList.remove("dragging");
+      if (dy > 110 || v > .6) { dismiss(); }
+      else { sheet.style.transform = ""; el.shade.style.opacity = ""; }
+    }
+    g.addEventListener("pointerup", end);
+    g.addEventListener("pointercancel", end);
   });
-  $("send").addEventListener("click", function (e) {
-    if ($("send").getAttribute("aria-disabled") === "true") { e.preventDefault(); $("person-name").focus(); }
+
+  el.send.addEventListener("click", function (e) {
+    if (el.send.getAttribute("aria-disabled") === "true") { e.preventDefault(); el["person-name"].focus(); return; }
+    haptic("success");
   });
-  $("copy").addEventListener("click", function () {
-    var text = $("sms-text").textContent;
-    var done = function () { $("copied").textContent = "Copiado. Pégalo en un mensaje a " + showPhone(cfg.phone) + "."; };
+  el.copy.addEventListener("click", function () {
+    var text = el["sms-text"].textContent;
+    var done = function () { haptic("success"); toast("Copiado. Envíalo a " + showPhone(cfg.phone)); };
     var fallback = function () {
-      var range = document.createRange(); range.selectNodeContents($("sms-text"));
+      var range = document.createRange(); range.selectNodeContents(el["sms-text"]);
       var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
-      $("copied").textContent = "Texto seleccionado: mantén pulsado y toca Copiar.";
+      toast("Texto seleccionado: mantén pulsado y toca Copiar");
     };
+    if (native && native.copy) { try { native.copy(text); done(); return; } catch (e) { /* fall through */ } }
     try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
   });
-  $("close").addEventListener("click", closeAll);
-  $("shade").addEventListener("click", closeAll);
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAll(); });
+  document.addEventListener("click", function (e) { if (e.target.closest("[data-close]")) dismiss(); });
+  el.shade.addEventListener("click", dismiss);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") dismiss(); });
 
   // Setup
-  function field(id, bad) { $(id).setAttribute("aria-invalid", bad ? "true" : "false"); }
-  $("open-setup").addEventListener("click", function () {
-    $("f-name").value = cfg.example ? "" : cfg.name;
-    $("f-phone").value = cfg.example ? "" : showPhone(cfg.phone);
-    $("f-pin").value = cfg.example ? "" : cfg.pin;
-    $("f-family").value = cfg.example ? "" : cfg.family.join(", ");
-    $("setup-error").textContent = "";
+  function field(id, bad) { el[id].setAttribute("aria-invalid", bad ? "true" : "false"); }
+  el["open-setup"].addEventListener("click", function () {
+    haptic("light");
+    el["f-name"].value = cfg.example ? "" : cfg.name;
+    el["f-phone"].value = cfg.example ? "" : showPhone(cfg.phone);
+    el["f-pin"].value = cfg.example ? "" : cfg.pin;
+    el["f-family"].value = cfg.example ? "" : cfg.family.join(", ");
+    el["setup-error"].textContent = "";
     ["f-name", "f-phone", "f-pin"].forEach(function (id) { field(id, false); });
-    $("shade").hidden = false; $("setup").hidden = false; $("f-name").focus();
+    present(el.setup, null);
   });
-  $("setup-cancel").addEventListener("click", closeAll);
-  $("setup-clear").addEventListener("click", function () {
-    try { localStorage.removeItem(KEY); } catch (e) { /* nothing stored */ }
-    cfg = readConfig(); render(); closeAll();
+  el["setup-clear"].addEventListener("click", function () {
+    store(function (s) { s.removeItem(KEY); });
+    cfg = readConfig(); render(); dismiss(); toast("Datos borrados");
   });
-  $("setup-form").addEventListener("submit", function (e) {
+  el["setup-form"].addEventListener("submit", function (e) {
     e.preventDefault();
-    var name = $("f-name").value.trim() || "Tu familiar";
-    var phone = cleanPhone($("f-phone").value);
-    var pin = $("f-pin").value.replace(/\s/g, "");
-    var family = $("f-family").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean).slice(0, 6);
-    field("f-phone", !phone); field("f-pin", !/^\d{4,8}$/.test(pin));
-    if (!phone) { $("setup-error").textContent = "Revisa el teléfono: escribe sus 9 cifras, con o sin +34."; $("f-phone").focus(); return; }
-    if (!/^\d{4,8}$/.test(pin)) { $("setup-error").textContent = "El PIN son de 4 a 8 cifras. Lo ves en su móvil, en Control remoto por SMS."; $("f-pin").focus(); return; }
+    var name = el["f-name"].value.trim() || "Tu familiar";
+    var phone = cleanPhone(el["f-phone"].value);
+    var pin = el["f-pin"].value.replace(/\s/g, "");
+    var family = el["f-family"].value.split(",").map(function (s) { return s.trim(); }).filter(Boolean).slice(0, 6);
+    var pinOk = /^\d{4,8}$/.test(pin);
+    field("f-phone", !phone); field("f-pin", !pinOk);
+    if (!phone) { haptic("error"); el["setup-error"].textContent = "Revisa el teléfono: escribe sus 9 cifras, con o sin +34."; el["f-phone"].focus(); return; }
+    if (!pinOk) { haptic("error"); el["setup-error"].textContent = "El PIN son de 4 a 8 cifras. Lo ves en su móvil, en Control remoto por SMS."; el["f-pin"].focus(); return; }
     var next = { name: name, phone: phone, pin: pin, family: family, example: false };
-    if (!writeConfig(next)) { $("setup-error").textContent = "Este navegador no deja guardar datos. Sal del modo privado de Safari e inténtalo otra vez."; return; }
-    cfg = next; render(); closeAll();
+    if (!writeConfig(next)) {
+      el["setup-error"].textContent = isIOS ? "Este navegador no deja guardar datos. Sal del modo privado de Safari e inténtalo otra vez." : "No se han podido guardar los datos en " + DEVICE + ".";
+      return;
+    }
+    cfg = next; render(); dismiss(); haptic("success"); toast("Guardado");
   });
+
+  // Compact title bar once the large name scrolls out of view.
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      el.navbar.classList.toggle("on", !entries[0].isIntersecting);
+    }, { rootMargin: "-56px 0px 0px 0px" }).observe(el.who);
+  }
 
   render();
   renderChannel();
+
+  // Offline support for the web version; the Android app already ships its files locally.
+  if (!native && "serviceWorker" in navigator && location.protocol === "https:") {
+    navigator.serviceWorker.register("sw.js").catch(function () { /* online-only */ });
+  }
 })();
 </script>
 </body>
