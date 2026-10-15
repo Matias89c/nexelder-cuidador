@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de privacidad · NexElder</title>
+<style>
+:root { color-scheme: light dark; --fg:#1c1c1e; --muted:#555; --bg:#f7f7f9; --card:#fff; --line:#e0e0e5; --link:#0a5bd3; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --fg:#f2f2f7; --muted:#b0b0b8; --bg:#0f0f12; --card:#1c1c21; --line:#33333b; --link:#6ea8ff; } }
+:root[data-theme="dark"] { --fg:#f2f2f7; --muted:#b0b0b8; --bg:#0f0f12; --card:#1c1c21; --line:#33333b; --link:#6ea8ff; }
+body { background:var(--bg); color:var(--fg); font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; margin:0; }
+main { max-width:760px; margin:0 auto; padding:24px 16px 48px; }
+h1 { font-size:1.9rem; line-height:1.2; }
+h2 { font-size:1.25rem; margin-top:1.8em; border-top:1px solid var(--line); padding-top:1em; }
+a { color:var(--link); }
+table { width:100%; border-collapse:collapse; font-size:.95rem; background:var(--card); }
+th,td { border:1px solid var(--line); padding:8px; text-align:left; vertical-align:top; }
+code { font-size:.92em; }
+</style>
+</head>
+<body>
+<main>
+<h1>Política de privacidad de NexElder</h1>
+<p><em>Última actualización: 15 de octubre de 2026</em></p>
+<p>NexElder es un entorno Android sencillo para personas mayores: inicio grande, llamadas, SOS, avisos a la familia, reloj, calendario, radio, juegos y Robi, un compañero de conversación por voz. Esta política explica qué datos usa NexElder, para qué y con quién se comparten.</p>
+<p><strong>Responsable:</strong> NexElder. Contacto: <a href="mailto:mcosta.legal@gmail.com">mcosta.legal@gmail.com</a>.</p>
+<h2>Resumen</h2>
+<ul>
+<li>NexElder <strong>no tiene cuentas, ni publicidad, ni analítica, ni servidores propios.</strong> Todo lo que configura la familia se guarda solo en el móvil.</li>
+<li>Los datos solo salen del móvil en los casos descritos abajo, y siempre hacia las personas o servicios que se nombran.</li>
+<li>NexElder no vende datos ni los usa para publicidad.</li>
+</ul>
+<h2>Qué datos usa y para qué</h2>
+<table><thead><tr><th>Dato</th><th>Para qué</th><th>¿Sale del móvil?</th></tr></thead><tbody>
+<tr><td><strong>Familia</strong> (nombres, teléfonos, fotos de los contactos elegidos)</td><td>Botones de llamada del inicio, SOS y avisos</td><td>No, salvo los SMS de aviso a esas mismas personas</td></tr>
+<tr><td><strong>Ubicación</strong> (también en segundo plano)</td><td>Enviarla a la familia en un SOS, en un aviso de inactividad o cuando un cuidador la pide con su PIN; el tiempo de la zona</td><td>Sí: por SMS a la familia en esos avisos, y las coordenadas, sin identificar a nadie, al servicio del tiempo Open-Meteo</td></tr>
+<tr><td><strong>SMS</strong> (solo envío)</td><td>El SOS, los avisos de inactividad y las respuestas a los cuidadores</td><td>Sí, a la familia, desde la línea del propio móvil</td></tr>
+<tr><td><strong>Contactos y registro de llamadas</strong></td><td>Mostrar la agenda y las llamadas recientes en el teléfono de NexElder</td><td>No</td></tr>
+<tr><td><strong>Notificaciones de WhatsApp</strong> (si la familia lo activa)</td><td>Leer las órdenes de los cuidadores («NEX …») y responder en el mismo chat</td><td>No se guardan; solo se responde al cuidador</td></tr>
+<tr><td><strong>Fotos, vídeos y documentos</strong></td><td>Verlos en NexElder (Fotos, Archivos)</td><td>No, salvo que la persona decida compartir uno</td></tr>
+<tr><td><strong>Micrófono</strong></td><td>Hablar con Robi</td><td>Lo transcribe el reconocimiento de voz del propio móvil</td></tr>
+<tr><td><strong>Conversación con Robi</strong></td><td>Que Robi responda</td><td>Sí: el texto se envía al servicio de inteligencia artificial que elija la familia (ver abajo)</td></tr>
+<tr><td><strong>Actividad del móvil</strong> (desbloqueos, movimiento)</td><td>Saber si hay que avisar por inactividad</td><td>No; solo la hora de la última actividad va en el aviso</td></tr>
+</tbody></table>
+<h2>Robi y los servicios de inteligencia artificial</h2>
+<p>Robi solo funciona si la familia introduce una clave propia de uno de estos servicios, que se guarda cifrada con el Android Keystore:</p>
+<ul>
+<li><strong>Anthropic (Claude)</strong></li>
+<li><strong>OpenAI (ChatGPT).</strong> NexElder le pide que no guarde la conversación.</li>
+<li><strong>DeepSeek.</strong> Según su política, los datos se procesan y guardan en servidores en China.</li>
+</ul>
+<p>Lo que la persona dice a Robi, ya pasado a texto, se envía a ese servicio para preparar cada respuesta. Se aplica también su propia política de privacidad. NexElder no guarda las conversaciones: solo los «recuerdos» que Robi apunta (nombres, gustos) y las respuestas que alguien marque con «Avisar», en el móvil y visibles en el Modo Cuidador.</p>
+<p>Si la familia lo activa:</p>
+<ul>
+<li><strong>Búsquedas en internet:</strong> solo se envían unas pocas palabras (qué buscar o un lugar) a Google News y Wikipedia, nunca la conversación.</li>
+<li><strong>Voz natural:</strong> las frases de Robi, no lo que dice la persona, se envían a Google Cloud para leerlas en voz alta.</li>
+</ul>
+<h2>Cuánto tiempo se guardan y cómo borrarlos</h2>
+<p>Los datos están en el móvil mientras NexElder esté instalado. La familia puede borrar en el Modo Cuidador:</p>
+<ul>
+<li>los recuerdos de Robi;</li>
+<li>las respuestas avisadas;</li>
+<li>las personas de la familia.</li>
+</ul>
+<p>Al desinstalar NexElder se borra todo. No se hacen copias en la nube ni al cambiar de móvil.</p>
+<h2>Seguridad</h2>
+<ul>
+<li><strong>Modo Cuidador:</strong> protegido con una contraseña, guardada con PBKDF2 y sal, que se bloquea tras varios intentos.</li>
+<li><strong>Órdenes a distancia:</strong> necesitan un PIN y solo se aceptan de los cuidadores de la familia.</li>
+<li><strong>Claves de los servicios:</strong> cifradas con el Android Keystore.</li>
+<li><strong>Conexiones:</strong> todas por HTTPS.</li>
+</ul>
+<h2>Responsable del tratamiento y contacto</h2>
+<p>Responsable: NexElder, Calle Josep Pujol 17, 3-2, Torredembarra (España), contacto: <a href="mailto:mcosta.legal@gmail.com">mcosta.legal@gmail.com</a>.</p>
+<h2>Base legal</h2>
+<ul>
+<li><strong>Uso de la aplicación y de la ubicación:</strong> el consentimiento de la persona que usa NexElder, que puede retirarlo en cualquier momento desde Modo Cuidador (artículo 6.1.a del RGPD).</li>
+<li><strong>Emergencias:</strong> la protección de intereses vitales cuando se activa el SOS (artículo 6.1.d del RGPD).</li>
+</ul>
+<h2>Tus derechos</h2>
+<p>Puedes pedir el acceso, la rectificación, la supresión, la limitación, la oposición y la portabilidad de tus datos escribiendo a <a href="mailto:mcosta.legal@gmail.com">mcosta.legal@gmail.com</a>. Si consideras que no se tratan conforme a la ley, puedes presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es).</p>
+<h2>Transferencias fuera del Espacio Económico Europeo</h2>
+<p>Si la familia elige Anthropic o OpenAI, sus servidores están en Estados Unidos; si elige DeepSeek, en China. Cada proveedor aplica sus propias garantías y su política de privacidad. NexElder no transfiere datos por sí mismo fuera del móvil, salvo en los casos descritos arriba.</p>
+<h2>Menores</h2>
+<p>NexElder está pensado para personas mayores y sus familias. No está dirigido a menores de 13 años.</p>
+<h2>Cambios</h2>
+<p>Si esta política cambia, se publicará aquí con su nueva fecha.</p>
+<hr>
+<hr>
+<h1>NexElder privacy policy</h1>
+<p><em>Last updated: 15 October 2026</em></p>
+<p>NexElder is a simple Android environment for older people: a large home screen, calls, SOS, alerts to the family, clock, calendar, radio, games and Robi, a voice companion. This policy explains which data NexElder uses, what for, and who it is shared with.</p>
+<p><strong>Controller:</strong> NexElder. Contact: <a href="mailto:mcosta.legal@gmail.com">mcosta.legal@gmail.com</a>.</p>
+<h2>Summary</h2>
+<ul>
+<li>NexElder has <strong>no accounts, no advertising, no analytics and no servers of its own.</strong> Everything the family sets up stays on the phone.</li>
+<li>Data only leaves the phone in the cases described below, and only to the people or services named.</li>
+<li>NexElder does not sell data or use it for advertising.</li>
+</ul>
+<h2>Data used and why</h2>
+<ul>
+<li><strong>Family</strong> (names, numbers and photos of the chosen contacts): call buttons, SOS and alerts. It is only sent in the alert texts to those same people.</li>
+<li><strong>Location, including in the background:</strong> sent to the family in an SOS, in an inactivity alert or when a caregiver asks with their PIN. It is also used for the local weather; the coordinates, without identifying anyone, go to Open-Meteo.</li>
+<li><strong>SMS (sending only):</strong> the SOS, inactivity alerts and answers to caregivers, sent to the family from the phone's own line.</li>
+<li><strong>Contacts and call log:</strong> shown in NexElder's phone app. They never leave the phone.</li>
+<li><strong>WhatsApp notifications</strong>, if the family turns this on: used to read caregivers' orders («NEX …») and answer in the same chat. Nothing is stored.</li>
+<li><strong>Photos, videos and documents:</strong> viewed inside NexElder. They are only shared if the person chooses to.</li>
+<li><strong>Microphone:</strong> used to talk to Robi. The phone's own speech recognition turns it into text.</li>
+<li><strong>Robi conversation:</strong> sent as text to the AI service the family chose (see below).</li>
+<li><strong>Phone activity</strong> (unlocks, movement): used to detect inactivity. Only the time of the last activity goes in the alert.</li>
+</ul>
+<h2>Robi and AI services</h2>
+<p>Robi only works with the family's own key for one of these services, stored encrypted with the Android Keystore:</p>
+<ul>
+<li><strong>Anthropic (Claude)</strong></li>
+<li><strong>OpenAI (ChatGPT).</strong> NexElder asks it not to store the conversation.</li>
+<li><strong>DeepSeek.</strong> According to its policy, data is processed and stored on servers in China.</li>
+</ul>
+<p>What the person says to Robi, as text, is sent to that service to prepare each answer, and that service's own privacy policy applies. NexElder does not keep conversations. It only keeps Robi's «memories» (names, likes) and any answers someone marks with «Avisar» (report), on the phone and visible in Caregiver Mode.</p>
+<p>If the family turns them on:</p>
+<ul>
+<li><strong>Web look-ups:</strong> only a few words (what to look for, or a place) are sent to Google News and Wikipedia, never the conversation.</li>
+<li><strong>Natural voice:</strong> Robi's sentences, not what the person says, are sent to Google Cloud to be read aloud.</li>
+</ul>
+<h2>Retention and deletion</h2>
+<p>Data stays on the phone while NexElder is installed. In Caregiver Mode the family can delete:</p>
+<ul>
+<li>Robi's memories;</li>
+<li>the reported answers;</li>
+<li>family members.</li>
+</ul>
+<p>Uninstalling NexElder deletes everything. There are no cloud backups and no copies to a new phone.</p>
+<h2>Security</h2>
+<ul>
+<li><strong>Caregiver Mode:</strong> protected by a password, stored with PBKDF2 and salt, that locks after several failed attempts.</li>
+<li><strong>Remote orders:</strong> they need a PIN and are only accepted from the family's caregivers.</li>
+<li><strong>Service keys:</strong> encrypted with the Android Keystore.</li>
+<li><strong>Connections:</strong> all over HTTPS.</li>
+</ul>
+<h2>Controller and contact</h2>
+<p>Controller: NexElder, Calle Josep Pujol 17, 3-2, Torredembarra (Spain), contact: <a href="mailto:mcosta.legal@gmail.com">mcosta.legal@gmail.com</a>.</p>
+<h2>Legal basis</h2>
+<ul>
+<li><strong>Use of the app and location:</strong> the consent of the person who uses NexElder, which can be withdrawn at any time from Caregiver Mode (Article 6(1)(a) GDPR).</li>
+<li><strong>Emergencies:</strong> protection of vital interests when the SOS is triggered (Article 6(1)(d) GDPR).</li>
+</ul>
+<h2>Your rights</h2>
+<p>You can ask for access, rectification, erasure, restriction, objection and portability of your data by writing to <a href="mailto:mcosta.legal@gmail.com">mcosta.legal@gmail.com</a>. If you believe your data is not processed lawfully, you can lodge a complaint with the Spanish Data Protection Agency (www.aepd.es).</p>
+<h2>Transfers outside the European Economic Area</h2>
+<p>If the family chooses Anthropic or OpenAI, their servers are in the United States; if it chooses DeepSeek, they are in China. Each provider applies its own safeguards and privacy policy. NexElder does not transfer data outside the phone by itself, except in the cases described above.</p>
+<h2>Children</h2>
+<p>NexElder is meant for older people and their families. It is not directed to children under 13.</p>
+<h2>Changes</h2>
+<p>If this policy changes, the new version will be published here with its date.</p>
+</main>
+</body>
+</html>
